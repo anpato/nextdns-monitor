@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useQuery } from 'react-query';
 import ProfileCard from '../components/profile-card';
 import { GetProfiles } from '../shared/services/internal-service';
-import { useProfiles } from '../store/profile.context';
+import { useProfiles } from '../hooks/useProfile.hook';
 
 const Home: NextPage = () => {
   const { setUserProfiles } = useProfiles();
