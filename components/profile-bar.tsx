@@ -20,7 +20,7 @@ const ProfileBar: FC = () => {
   return (
     <Navbar variant="static" isBordered>
       <Navbar.Brand>
-        <Text h4>{profile?.name}</Text>
+        <Text h4>{profile?.name || 'Your Profile'}</Text>
       </Navbar.Brand>
       <Navbar.Content>
         <Navbar.Link
