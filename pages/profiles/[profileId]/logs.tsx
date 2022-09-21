@@ -6,10 +6,12 @@ import { NextDnsApi } from '../../../datasources/base-api';
 import { NextPage } from 'next';
 import {
   Badge,
+  Button,
   Container,
   Dropdown,
   Grid,
   Loading,
+  Spacer,
   Table,
   Tooltip
 } from '@nextui-org/react';
@@ -75,7 +77,34 @@ const Logs: NextPage<IProps> = ({ profileId }) => {
       </Head>
       <ProfileBar />
       <Container>
-        <Grid.Container gap={2} justify="center">
+        <Spacer />
+        <Grid.Container gap={2} justify="space-between" alignItems="center">
+          <Grid>
+            <Tooltip
+              content="Change the frequency of log retrieval."
+              placement="right"
+            >
+              <Dropdown>
+                <Dropdown.Button ghost>
+                  Refetch Logs: {refectchInterval / 1000}s
+                </Dropdown.Button>
+                <Dropdown.Menu
+                  selectionMode="single"
+                  selectedKeys={Array.from(refectchInterval.toString())}
+                  disabledKeys={[refectchInterval.toString()]}
+                  onSelectionChange={(key) => {
+                    let value = Object.values(key)[0];
+
+                    setRefetchInterval(Number(value));
+                  }}
+                >
+                  {refetchTimes.map((t) => (
+                    <Dropdown.Item key={t}>{t / 1000}s</Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Tooltip>
+          </Grid>
           <Grid>
             <Loading
               type="points"
@@ -85,32 +114,13 @@ const Logs: NextPage<IProps> = ({ profileId }) => {
               }}
             />
           </Grid>
+          <Grid>
+            <Tooltip content="Manually get all logs." placement="left">
+              <Button onPress={() => refetch()}>Get Logs</Button>
+            </Tooltip>
+          </Grid>
         </Grid.Container>
-        <Dropdown>
-          <Dropdown.Button flat>
-            Refetch Logs: {refectchInterval / 1000}s
-          </Dropdown.Button>
-          <Dropdown.Menu
-            selectionMode="single"
-            selectedKeys={Array.from(refectchInterval.toString())}
-            disabledKeys={[refectchInterval.toString()]}
-            onSelectionChange={(key) => {
-              let value = Object.values(key)[0];
-              if (Number(value)) {
-                setRefetchInterval(Number(value));
-              } else {
-                refetch();
-              }
-            }}
-          >
-            {[
-              ...refetchTimes.map((t) => (
-                <Dropdown.Item key={t}>{t / 1000}s</Dropdown.Item>
-              )),
-              <Dropdown.Item key="manual">Get Logs</Dropdown.Item>
-            ]}
-          </Dropdown.Menu>
-        </Dropdown>
+
         <Table>
           <Table.Header>
             <Table.Column>Domain</Table.Column>
