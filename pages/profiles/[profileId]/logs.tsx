@@ -1,8 +1,8 @@
 import ProfileBar from '../../../components/profile-bar';
 import { AxiosResponse } from 'axios';
-import { InternalUrls } from '../../../datasources/api-urls';
-import { IGetProfiles } from '../../../constants/types/profile.type';
-import { NextDnsApi } from '../../../datasources/base-api';
+import { InternalUrls } from '../../../shared/datasources/api-urls';
+import { IGetProfiles } from '../../../shared/constants/types/profile.type';
+import { NextDnsApi } from '../../../shared/datasources/base-api';
 import { NextPage } from 'next';
 import {
   Badge,
@@ -17,11 +17,11 @@ import {
 } from '@nextui-org/react';
 import { useQuery } from 'react-query';
 import { GetLogs } from '../../../shared/services/internal-service';
-import { Status } from '../../../constants/enums/status.enum';
+import { Status } from '../../../shared/constants/enums/status.enum';
 import { ReactNode, useEffect, useState } from 'react';
 import Head from 'next/head';
-import { useProfiles } from '../../../hooks/useProfile.hook';
-import { Log } from '../../../constants/models/logs.model';
+import { useProfiles } from '../../../shared/hooks/useProfile.hook';
+import { Log } from '../../../shared/constants/models/logs.model';
 
 type IProps = {
   profileId: string;

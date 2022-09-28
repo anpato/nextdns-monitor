@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { NextApiResponse } from 'next';
-import { IGetLogs } from '../../../constants/types/logs-type';
-import { ProfileRequest } from '../../../constants/types/profile.type';
-import { NextDnsUrls } from '../../../datasources/api-urls';
-import { NextDnsApi } from '../../../datasources/base-api';
+import { IGetLogs } from '../../../shared/constants/types/logs-type';
+import { ProfileRequest } from '../../../shared/constants/types/profile.type';
+import { NextDnsUrls } from '../../../shared/datasources/api-urls';
+import { NextDnsApi } from '../../../shared/datasources/base-api';
 
 export default async function handler(
   req: ProfileRequest,

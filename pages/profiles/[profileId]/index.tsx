@@ -8,16 +8,16 @@ import AnalyticsStatus from '../../../components/analytics-status';
 import DeviceGrid from '../../../components/device-grid';
 import DomainModal from '../../../components/domain-modal';
 import ProfileBar from '../../../components/profile-bar';
-import { ExtendedProfile } from '../../../constants/models/profile.model';
-import { IGetProfiles } from '../../../constants/types/profile.type';
-import { InternalUrls } from '../../../datasources/api-urls';
-import { NextDnsApi } from '../../../datasources/base-api';
+import { ExtendedProfile } from '../../../shared/constants/models/profile.model';
+import { IGetProfiles } from '../../../shared/constants/types/profile.type';
+import { InternalUrls } from '../../../shared/datasources/api-urls';
+import { NextDnsApi } from '../../../shared/datasources/base-api';
 import {
   GetAnalyticsStatus,
   GetProfile,
   GetProfileDevices
 } from '../../../shared/services/internal-service';
-import { useProfiles } from '../../../hooks/useProfile.hook';
+import { useProfiles } from '../../../shared/hooks/useProfile.hook';
 
 type IProps = {
   profileId: string;

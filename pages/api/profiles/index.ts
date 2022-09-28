@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IGetProfiles } from '../../../constants/types/profile.type';
-import { InternalUrls } from '../../../datasources/api-urls';
-import { NextDnsApi } from '../../../datasources/base-api';
+import { IGetProfiles } from '../../../shared/constants/types/profile.type';
+import { InternalUrls } from '../../../shared/datasources/api-urls';
+import { NextDnsApi } from '../../../shared/datasources/base-api';
 
 export default async function handler(
   req: NextApiRequest,

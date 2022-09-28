@@ -1,20 +1,22 @@
 import type { AppProps } from 'next/app';
 import { createTheme, NextUIProvider } from '@nextui-org/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-
+import { SessionProvider } from 'next-auth/react';
 const theme = createTheme({
   type: 'dark'
 });
 
 const queryClient = new QueryClient({});
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: any) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <NextUIProvider theme={theme}>
-        <Component {...pageProps} />
-      </NextUIProvider>
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <NextUIProvider theme={theme}>
+          <Component {...pageProps} />
+        </NextUIProvider>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }
 

@@ -1,7 +1,7 @@
 import { Navbar, Tooltip, Badge, Text } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useProfiles } from '../hooks/useProfile.hook';
+import { useProfiles } from '../shared/hooks/useProfile.hook';
 
 const ProfileBar: FC = () => {
   const router = useRouter();

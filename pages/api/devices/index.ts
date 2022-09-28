@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IGetDevices } from '../../../constants/types/device-type';
-import { ProfileRequest } from '../../../constants/types/profile.type';
-import { NextDnsUrls } from '../../../datasources/api-urls';
-import { NextDnsApi } from '../../../datasources/base-api';
+import { IGetDevices } from '../../../shared/constants/types/device-type';
+import { ProfileRequest } from '../../../shared/constants/types/profile.type';
+import { NextDnsUrls } from '../../../shared/datasources/api-urls';
+import { NextDnsApi } from '../../../shared/datasources/base-api';
 
 export default async function handler(
   req: ProfileRequest,

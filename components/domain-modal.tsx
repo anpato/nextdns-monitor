@@ -10,7 +10,7 @@ import {
   Text
 } from '@nextui-org/react';
 import { FC } from 'react';
-import { ExtendedProfile } from '../constants/models/profile.model';
+import { ExtendedProfile } from '../shared/constants/models/profile.model';
 
 type IProps = {
   isOpen: boolean;

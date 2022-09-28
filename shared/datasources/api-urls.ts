@@ -18,6 +18,14 @@ export class InternalUrls {
   static getLogs(profileId: string): string {
     return `/logs?profileId=${profileId}`;
   }
+
+  static signIn(csrfToken: string): string {
+    return `/auth/signin/email?csrf=${csrfToken}`;
+  }
+
+  static getUserByEmail(email: string): string {
+    return `/users?email=${encodeURIComponent(email)}`;
+  }
 }
 
 export class NextDnsUrls {

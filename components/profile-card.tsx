@@ -7,7 +7,7 @@ import {
   Link as NextLink
 } from '@nextui-org/react';
 import { FC } from 'react';
-import { Profile } from '../constants/models/profile.model';
+import { Profile } from '../shared/constants/models/profile.model';
 
 interface IProps extends Profile {}
 

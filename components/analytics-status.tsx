@@ -9,7 +9,7 @@ import {
   Text
 } from '@nextui-org/react';
 import { FC } from 'react';
-import { AnalyticsStatus } from '../constants/models/analytics.model';
+import { AnalyticsStatus } from '../shared/constants/models/analytics.model';
 
 type IProps = {
   analytics: AnalyticsStatus[];

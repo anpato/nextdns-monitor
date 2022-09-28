@@ -7,7 +7,7 @@ import {
   Text
 } from '@nextui-org/react';
 import { FC } from 'react';
-import { Device } from '../constants/models/device.model';
+import { Device } from '../shared/constants/models/device.model';
 
 type IProps = {
   devices: Device[];
