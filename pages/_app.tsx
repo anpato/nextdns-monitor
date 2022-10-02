@@ -6,7 +6,14 @@ const theme = createTheme({
   type: 'dark'
 });
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false
+    }
+  }
+});
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: any) {
   return (

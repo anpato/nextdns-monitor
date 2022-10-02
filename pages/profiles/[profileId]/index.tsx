@@ -1,6 +1,5 @@
 import { Container, Grid } from '@nextui-org/react';
-import { AxiosResponse } from 'axios';
-import { NextPage } from 'next';
+import { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import { useState } from 'react';
 import { useQueries } from 'react-query';
@@ -9,15 +8,13 @@ import DeviceGrid from '../../../components/device-grid';
 import DomainModal from '../../../components/domain-modal';
 import ProfileBar from '../../../components/profile-bar';
 import { ExtendedProfile } from '../../../shared/constants/models/profile.model';
-import { IGetProfiles } from '../../../shared/constants/types/profile.type';
-import { InternalUrls } from '../../../shared/datasources/api-urls';
-import { NextDnsApi } from '../../../shared/datasources/base-api';
 import {
   GetAnalyticsStatus,
   GetProfile,
   GetProfileDevices
 } from '../../../shared/services/internal-service';
 import { useProfiles } from '../../../shared/hooks/useProfile.hook';
+import { useRouter } from 'next/router';
 
 type IProps = {
   profileId: string;
@@ -26,6 +23,9 @@ type IProps = {
 const Profile: NextPage<IProps> = ({ profileId }) => {
   const [domainDrawerOpen, toggleDomainDrawer] = useState<boolean>(false);
   const { setActiveUserProfile } = useProfiles();
+  const router = useRouter();
+  profileId = profileId ?? router.query.profileId;
+
   const [
     { data: profileData },
     { data: devices = [], isLoading: devicesLoading },
@@ -36,22 +36,25 @@ const Profile: NextPage<IProps> = ({ profileId }) => {
       queryFn: async () => await GetProfile(profileId),
       onSuccess: (data: ExtendedProfile) => {
         setActiveUserProfile(data);
-      }
+      },
+      enabled: !!profileId
     },
     {
       queryKey: 'Devices',
-      queryFn: async () => await GetProfileDevices(profileId)
+      queryFn: async () => await GetProfileDevices(profileId),
+      enabled: !!profileId
     },
     {
       queryKey: 'AnaltyticsStatus',
-      queryFn: async () => await GetAnalyticsStatus(profileId)
+      queryFn: async () => await GetAnalyticsStatus(profileId),
+      enabled: !!profileId
     }
   ]);
 
   return (
     <div>
       <Head>
-        <title>Dashboard | {profileData?.name}</title>
+        <title>Dashboard | {profileData?.name ?? 'Your Profile'}</title>
       </Head>
       <ProfileBar />
       <DomainModal
@@ -79,14 +82,10 @@ const Profile: NextPage<IProps> = ({ profileId }) => {
 
 export default Profile;
 
-export async function getStaticPaths() {
-  const profiles: AxiosResponse<IGetProfiles> = await NextDnsApi.get(
-    InternalUrls.getProfiles()
-  );
-
+export async function getStaticPaths(ctx: GetServerSidePropsContext) {
   return {
-    paths: profiles.data.data.map((p) => ({ params: { profileId: p.id } })),
-    fallback: false
+    paths: [],
+    fallback: true
   };
 }
 
@@ -95,5 +94,6 @@ export async function getStaticProps({
 }: {
   params: { profileId: string };
 }) {
+  console.log(params);
   return { props: { profileId: params.profileId } };
 }

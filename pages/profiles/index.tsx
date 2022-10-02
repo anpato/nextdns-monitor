@@ -1,17 +1,29 @@
 import { Container, Grid, Loading, Button } from '@nextui-org/react';
-import type { NextPage } from 'next';
+import type { NextPage, NextPageContext } from 'next';
 import Head from 'next/head';
 import { useQuery } from 'react-query';
 import ProfileCard from '../../components/profile-card';
-import { GetProfiles } from '../../shared/services/internal-service';
+import {
+  GetProfiles,
+  GetUserProfile
+} from '../../shared/services/internal-service';
 import { useProfiles } from '../../shared/hooks/useProfile.hook';
-import { signOut, useSession } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]';
+import db from '../../shared/services/prisma.service';
+import { useEffect } from 'react';
+import { NextDnsApi } from '../../shared/datasources/base-api';
+import { SSP_UserApiKey } from '../../shared/helpers/apikey.helper';
 
-const Home: NextPage = () => {
+type Props = {
+  apiKey: string;
+};
+
+const Home: NextPage<Props> = ({ apiKey }) => {
   const { setUserProfiles } = useProfiles();
-  const session = useSession();
-  console.log(session);
-  const { isLoading, data } = useQuery(
+
+  const { isLoading, data = [] } = useQuery(
     'Profiles',
     async () => await GetProfiles(),
     {
@@ -56,3 +68,13 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export async function getServerSideProps(ctx: any) {
+  // const profile = await SSP_UserApiKey(ctx);
+
+  return {
+    props: {
+      // apiKey: profile?.apiKey
+    }
+  };
+}

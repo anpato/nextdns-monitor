@@ -5,3 +5,11 @@ export interface FindUserByEmail extends NextApiRequest {
     email: string;
   };
 }
+
+export interface UpdateUserAccount extends FindUserByEmail {
+  body: {
+    apiKey: string;
+    firstName: string;
+    lastName: string;
+  };
+}

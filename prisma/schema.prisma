@@ -38,14 +38,14 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  UserProfile   UserProfile[]
+  UserProfile   UserProfile?
 }
 
 model VerificationToken {
@@ -60,5 +60,5 @@ model UserProfile {
   profileId String @id() @default(uuid())
   apiKey    String
   user      User   @relation(fields: [userId], references: [id])
-  userId    String
+  userId    String @unique
 }

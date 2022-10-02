@@ -26,6 +26,14 @@ export class InternalUrls {
   static getUserByEmail(email: string): string {
     return `/users?email=${encodeURIComponent(email)}`;
   }
+
+  static updateUserAccount(email: string): string {
+    return `/users/account?email=${encodeURIComponent(email)}`;
+  }
+
+  static getUserProfile(email: string): string {
+    return `/users/profile?email=${encodeURIComponent(email)}`;
+  }
 }
 
 export class NextDnsUrls {

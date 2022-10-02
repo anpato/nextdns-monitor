@@ -1,10 +1,10 @@
-import { User } from '@prisma/client';
+import { User, UserProfile } from '@prisma/client';
 import { AxiosResponse } from 'axios';
 import { AnalyticsStatus } from '../constants/models/analytics.model';
 import { Device } from '../constants/models/device.model';
 import { Log } from '../constants/models/logs.model';
 import { ExtendedProfile, Profile } from '../constants/models/profile.model';
-import { IGetProfile, IGetProfiles } from '../constants/types/profile.type';
+import { UserInfo } from '../constants/models/user-profile.model';
 import { InternalUrls } from '../datasources/api-urls';
 import { ClientApi } from '../datasources/base-api';
 
@@ -66,5 +66,22 @@ export const GetUserByEmail = async (email: string): Promise<User> => {
   const res: AxiosResponse<User> = await ClientApi.get(
     InternalUrls.getUserByEmail(email)
   );
+  return res.data;
+};
+
+export const UpdateUserAccount = async (
+  email: string,
+  data: UserInfo
+): Promise<UserProfile> => {
+  const res: AxiosResponse<UserProfile> = await ClientApi.put(
+    InternalUrls.updateUserAccount(email),
+    data
+  );
+  return res.data;
+};
+
+export const GetUserProfile = async (email: string): Promise<UserProfile> => {
+  const res = await ClientApi.get(InternalUrls.getUserProfile(email));
+
   return res.data;
 };

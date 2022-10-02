@@ -22,6 +22,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useProfiles } from '../../../shared/hooks/useProfile.hook';
 import { Log } from '../../../shared/constants/models/logs.model';
+import { useRouter } from 'next/router';
 
 type IProps = {
   profileId: string;
@@ -31,6 +32,8 @@ const refetchTimes = [2000, 5000, 10000];
 
 const Logs: NextPage<IProps> = ({ profileId }) => {
   const { activeProfile } = useProfiles();
+  const router = useRouter();
+  profileId = profileId ?? router.query.profileId;
   const [refectchInterval, setRefetchInterval] = useState<number>(5000);
   const {
     isLoading,
@@ -38,7 +41,8 @@ const Logs: NextPage<IProps> = ({ profileId }) => {
     isRefetching,
     refetch
   } = useQuery('Logs', async () => await GetLogs(profileId), {
-    refetchInterval: refectchInterval
+    refetchInterval: refectchInterval,
+    enabled: !!profileId
   });
 
   const shouldShowToolTip = (
@@ -73,7 +77,7 @@ const Logs: NextPage<IProps> = ({ profileId }) => {
   return (
     <div>
       <Head>
-        <title>Logs | {activeProfile?.name} </title>
+        <title>Logs | {activeProfile?.name ?? 'Your Profile'} </title>
       </Head>
       <ProfileBar />
       <Container>
@@ -116,7 +120,12 @@ const Logs: NextPage<IProps> = ({ profileId }) => {
           </Grid>
           <Grid>
             <Tooltip content="Manually get all logs." placement="left">
-              <Button onPress={() => refetch()}>Get Logs</Button>
+              <Button
+                disabled={isLoading || isRefetching}
+                onPress={() => refetch()}
+              >
+                Get Logs
+              </Button>
             </Tooltip>
           </Grid>
         </Grid.Container>
@@ -180,13 +189,9 @@ const Logs: NextPage<IProps> = ({ profileId }) => {
 export default Logs;
 
 export async function getStaticPaths() {
-  const profiles: AxiosResponse<IGetProfiles> = await NextDnsApi.get(
-    InternalUrls.getProfiles()
-  );
-
   return {
-    paths: profiles.data.data.map((p) => ({ params: { profileId: p.id } })),
-    fallback: false
+    paths: [],
+    fallback: true
   };
 }
 
